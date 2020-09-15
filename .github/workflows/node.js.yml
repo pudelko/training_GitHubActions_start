@@ -1,0 +1,25 @@
+name: Node.js CI
+
+on:
+  push:
+    branches: [master]
+
+env:
+  TEST: test
+  TEST2: test2
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      TEST: test_override
+      Hello: ${{ format('Hello {0}!', 'Białystok') }}
+      json: ${{ toJson(github) }}
+    steps:
+    - uses: actions/checkout@v2
+    - run: echo $TEST
+    - run: echo $TEST2
+      if: ${{ success() }}
+    - run: echo $Hello
+    - run: echo $json
+    - run: echo $GITHUB_RUN_NUMBER
