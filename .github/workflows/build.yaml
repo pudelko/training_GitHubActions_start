@@ -1,28 +1,27 @@
-name: Node.js CI
-
-on: 
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
-
+name: Node.js CI
+on: 
+  push:
+    # branches: [ master ]
+  pull_request:
+    # branches: [ master ]
 env:
-  TEST: test
-  TEST2: test2
-
+  TEST: test
+  TEST2: test2
 jobs:
-  build:
-
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js
-      uses: actions/setup-node@v1
-    - run:  echo ${{ env.TEST }}
-    - run: |
-        npm ci
-        npm run build --if-present
-    - run: npm test
-      if: ${{ success() }} 
- 
+  build:
+    env:
+      TEST: test_in_job
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js
+      uses: actions/setup-node@v1
+    - run: echo ${{ env.TEST }}
+    - name: Set variable
+      run: echo '::set-env name=TEST::in_step'
+    - run: echo ${{ env.TEST }}
+    - run: |
+        npm ci
+        npm run build --if-present
+    - run: npm test
+      if: ${{ success() }}
