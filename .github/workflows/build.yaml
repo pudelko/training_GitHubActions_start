@@ -12,3 +12,8 @@ jobs:
         npm run build --if-present
     - run: npm test
       if: ${{ success() }}
+  on: 
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
